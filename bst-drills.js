@@ -3,9 +3,10 @@
 const BinarySearchTree = require('./bst.js');
 
 const bst = new BinarySearchTree();
-// const data = [3,1,4,6,8,9,10,12,2,5,7];
+const data = [3,1,4,6,8,9,10,12,2,5,7];
 // const data = [1,2,3,4,5];
-const data = [3,2,4,1,0];
+// const data = [3,2,4,1,0];
+// const data = [1,0,5,4,10,6];
 data.forEach(each => bst.insert(each));
 
 function getHeight(node) {
@@ -36,17 +37,38 @@ function isBST(node) {
   }
 }
 
+// this one does not work properly!!!
+function getThirdLargest(node) {
+  let largest = _getMax(node);
+  if (largest.left && largest.left.key > largest.parent.key) {
+    return largest.parent.key;
+  } else if (!largest.left) {
+    if (largest.parent.right.key > largest.parent.parent.key) {
+      return largest.parent.right.key;
+    } else {
+      return largest.parent.parent.key;
+    }
+  } else if (!largest.parent.right) {
+    return largest.parent.parent.key;
+  }
+}
+function _getMax(node) {
+  if (!node.right) {
+    return node;
+  }
+  return _getMax(node.right);
+}
+
 function isBalanced(node) {
   if (!node) {
-    return 'maybe balanced...';
+    return 'BST is empty';
   }
   const leftHeight = getHeight(node.left);
   const rightHeight = getHeight(node.right);
-
   if (Math.abs(leftHeight - rightHeight) > 1) {
-    return 'is not balanced';
+    return 'BST is not balanced';
   }
-  return 'is balanced!';
+  return 'BST is balanced!';
 }
 
 // console.log(bst);
