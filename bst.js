@@ -1,5 +1,4 @@
 'use strict';
-'use strict';
 
 class BinarySearchTree {
   constructor(key = null, value = null, parent = null) {
@@ -79,6 +78,8 @@ class BinarySearchTree {
     if (this.key === key) {
       if (this.left && this.right) {
         const successor = this.right._findMin();
+        // if successor is implemented to the left, then find the max of the left tree
+        // const successor = this.left._findMax();
         this.key = successor.key;
         this.value = successor.value;
         successor.remove(successor.key);
@@ -145,6 +146,13 @@ class BinarySearchTree {
       return this;
     }
     return this.left._findMin();
+  }
+
+  _findMax() {
+    if (!this.right) {
+      return this;
+    }
+    return this.right._findMax();
   }
 }
 
